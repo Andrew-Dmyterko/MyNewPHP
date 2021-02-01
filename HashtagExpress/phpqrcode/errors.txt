@@ -1,0 +1,68 @@
+2020-12-12 10:14:10: <br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/frame_1.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_0/mask_21_0.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_1/mask_21_1.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_2/mask_21_2.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_3/mask_21_3.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_4/mask_21_4.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_5/mask_21_5.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_6/mask_21_6.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_7/mask_21_7.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+2020-12-12 10:15:16: <br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/frame_1.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_0/mask_21_0.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_1/mask_21_1.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_2/mask_21_2.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_3/mask_21_3.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_4/mask_21_4.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_5/mask_21_5.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_6/mask_21_6.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(/var/www/html/MyNewPHP/QR/phpqrcode/cache/mask_7/mask_21_7.dat): failed to open stream: Permission denied in <b>/var/www/html/MyNewPHP/QR/phpqrcode/qrmask.php</b> on line <b>155</b><br />

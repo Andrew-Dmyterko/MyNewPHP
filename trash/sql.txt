@@ -1,0 +1,29 @@
+
+отец-сын
+SELECT a.`father_name` as father , son.`father_name` as son
+FROM `Men` a, `Men` son
+WHERE
+a.`son_id` = son.`id`
+
+
+дедушка-отец-сын
+SELECT grandfather.`father_name` as grandfather,
+father.`father_name` as father ,
+son.`father_name` as son
+FROM `Men` grandfather,
+     `Men` father,
+     `Men` son
+WHERE grandfather.`son_id` = father.`id`
+and father.`son_id` = son.`id`
+
+
+прадедушка-дедушка-отец-сын
+SELECT greatgrandfather.`father_name` as greatgrandfather,
+grandfather.`father_name` as grandfather,
+father.`father_name` as father ,
+son.`father_name` as son
+FROM `Men` greatgrandfather, `Men` grandfather, `Men` father, `Men` son
+WHERE
+    greatgrandfather.`son_id` = grandfather.`id`
+and grandfather.`son_id` = father.`id`
+and father.`son_id` = son.`id`

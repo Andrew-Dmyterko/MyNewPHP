@@ -1,0 +1,51 @@
+create or replace procedure payboss (in id int)
+    begin
+
+        declare isboss integer;
+
+        set isboss=0;
+
+        select 1 into isboss
+        from employees1
+        where BossID = EmployeeID
+        and EmployeeID = id;
+
+        if isboss = 1 THEN
+
+            UPDATE employees1 a
+            SET a.Salary=
+                    (select MAX(b.Salary)*1.1
+                     from employees1 b
+                     where a.DepartamentID = b.DepartamentID)
+            WHERE a.Salary <  (select MAX(c.Salary)
+                               from employees1 c
+                               where a.DepartamentID = c.DepartamentID)
+              and a.BossID = a.EmployeeID
+              and a.EmployeeID = id ;
+
+        ELSE
+
+            select concat(id," - ",(select name from employees1 where EmployeeID = id), " - is not a boss");
+
+        END IF;
+    end
+
+# <---2 задание---->
+create or replace procedure calc (in a int, in b int, in oper varchar(1))
+    begin
+
+        CASE oper
+            WHEN '*' THEN
+                select a*b;
+            WHEN '-' THEN
+                select a-b;
+            WHEN '+' THEN
+                select a+b;
+            WHEN '/' THEN
+                select a/b;
+            ELSE
+                select concat (oper," bad operation ");
+            END CASE;
+
+    end
+# <---2 задание---->

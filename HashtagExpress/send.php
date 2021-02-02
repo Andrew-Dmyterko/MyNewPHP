@@ -3,6 +3,7 @@ session_start();
 
 use Classes\ExpressDb;
 use Classes\ExpressAdmin;
+use Classes\Package;
 
 // __autoload for used class
 spl_autoload_register(function ($class) {
@@ -36,12 +37,6 @@ $id=0;
 $user_send = "";
 $user_recive = "";
 
-//if (isset($_GET['user_send_description']))  $user_send_description = $_GET['user_send_description'];
-//else $user_send_description = "";
-
-//if (isset($_GET['user_send_weight']))  $user_send_weight = $_GET['user_send_weight'];
-//else $user_send_weight = "";
-
 if (isset($_GET['user_phone_sender'])) {
 
     $user_phone = $_GET['user_phone_sender'];
@@ -53,6 +48,7 @@ if (isset($_GET['user_phone_sender'])) {
     }
 }
 $city_id =  $_GET['city_id'] ?? null;
+$point_id =  $_GET['point_id'] ?? null;
 $pack_descr = $_GET['pack_descr'] ?? '';
 $pack_weight = $_GET['pack_weight'] ?? '';
 $pack_length = $_GET['pack_length'] ?? '';
@@ -78,7 +74,7 @@ if (isset($_GET['phone_phone_recive'])) {
     // get city from db
     $citiesList = $db->getCities();
 
-//                         get points from db
+// get points from db
     if (isset($city_id)) {
         $pointsList = $db->getPoints($city_id);
         $city_name = $db->getCityById($city_id);
@@ -86,7 +82,9 @@ if (isset($_GET['phone_phone_recive'])) {
     }
     else $pointsList = null;
 
-
+    if (isset($point_id)) {
+        $point_name = $db->getPointById($point_id);
+    }
 }
 
 ?>
@@ -284,14 +282,14 @@ if (isset($_GET['phone_phone_recive'])) {
                      </select>
                      <button class="btn btn-primary" type="submit">Найти отделения в городе</button>
                  </div>
-
+                <?php if (isset($city_id)) :?>
                  <div class="col-md-6 mb-6">
                      <label for="validationDefault03">Номер отделения</label>
                      <select class="form-select form-control" aria-label="Default select example" id="validationDefault03" name="point_id">
-                         <option disabled selected>Выберите отделение</option>
+                         <option disabled selected>Выберите отделение в г.<?= $city_name[0]['city_name'] ?></option>
                          <?php foreach ($pointsList as $id => $point) :?>
 
-                             <option value=<?= $point['point_id']?> ><?= $point['point_number']." - ".$city_name[0]['city_name'].", ".$point['point_address']?> </option>
+                             <option value=<?= $point['point_id']?> <?= ($point['point_id'] == $point_id && isset($_GET['go_cost'])) ? " selected" : ""; ?>><?= $point['point_number']." - ".$city_name[0]['city_name'].", ".$point['point_address']?> </option>
 
                          <?php endforeach; ?>
                      </select>
@@ -301,14 +299,75 @@ if (isset($_GET['phone_phone_recive'])) {
                      <label for="validationDefault04"><b>Расчет стоимости</b></label>
                      <button class="btn btn-primary form-control" name="go_cost" value="cost" type="submit">Посчитать стоимость</button>
                  </div>
+<!--             </div>-->
+             <?php if (isset($_GET['go_cost']) && isset($point_id)) : ?>
+
+                 <div class="text" style="margin-left: 220px;margin-top: 0px;">
+<!--                     <h4>Заказ <b>98006300258</b> от <b>20.12.2020</b></h4>-->
+                     <table>
+                         <tr>
+                                 <td><u><b>Отправитель:</b></u></td>
+                                 <td><?=$user_send['user_phone']." ".$user_send['user_name']." отделение №".$point['point_number']." г.".$city_name[0]['city_name']?></td>
+                         </tr>
+                         <tr>
+                                 <td><u><b>Получатель:</b></u></td>
+                                 <td><?=$user_recive['user_phone']." ".$user_recive['user_name']." отделение №".$point_name[0]['point_number']." г.".$city_name[0]['city_name'].", ".$point_name[0]['point_address']?></td>
+                         </tr>
+                         <tr>
+                             <td><u><b>Cтоимость доставки:</b></u></td><td><?= Package::countDelivery() ?> грн</td>
+                         </tr>
+                         <tr>
+                                     <td>  <div class="form-check">
+                                             <input type="checkbox" name="pay_beznal" class="form-check-input" id="exampleCheck1">
+                                             <label class="form-check-label" for="exampleCheck1">Оплата безналичная</label>
+                                         </div>
+                                     </td>
+                                     <td>  <div class="form-check">
+                                             <input type="checkbox" name="pay" class="form-check-input" id="exampleCheck11">
+                                             <label class="form-check-label" for="exampleCheck1">Оплата совершена</label>
+                                         </div>
+                                         <div class="form-check">
+                                             <input type="checkbox" name="pay_reciver" class="form-check-input" id="exampleCheck12">
+                                             <label class="form-check-label" for="exampleCheck12">Платит получатель</label>
+                                         </div>
+                                     </td>
+                         </tr>
+                     </table>
+                 </div>
+             </div>
+         <button class="btn btn-primary" name="send_offer" value="send_offer" type="submit">Оформить заказ</button>
+             <?php endif; ?>
+             <?php endif; ?>
              </div>
 
-             <button class="btn btn-primary" name="send_offer" value="send_offer" type="submit">Оформит заказ</button>
+<!--             <button class="btn btn-primary" name="send_offer" value="send_offer" type="submit">Оформит заказ</button>-->
          <?php } ?>
+<!--         <button class="btn btn-primary" name="send_offer" value="send_offer" type="submit">Оформит заказ</button>-->
      </form>
 
     <?php } } else {
     require_once __DIR__ . '/phpqrcode/qrlib.php';
+
+//echo "<pre>";
+//    var_dump($_GET);
+//die;
+
+    $package = new Package($_GET["user_phone_sender"],
+        $_GET["point_num"],
+        $_GET["point_address"],
+        $_GET["pack_descr"],
+        $_GET["pack_weight"],
+        $_GET["pack_length"],
+        $_GET["pack_width"],
+        $_GET["pack_height"],
+        $_GET["phone_phone_recive"],
+        $_GET["city_id"],
+        $_GET["point_id"],
+        $_GET["pay_beznal"],
+        $_GET["pay"],
+        $_GET["pay_reciver"]);
+
+    $package->save($db->connection);
 
     /* Генерация QR-кода во временный файл */
     //    http://localhost/MyNewPHP/HashtagExpress/status.php?order_num=98006300258
@@ -378,7 +437,7 @@ if (isset($_GET['phone_phone_recive'])) {
     }
    ?>
     <hr>
-    <p><a href='index.php'>Назад</a></p>
+    <p><a href='operator.php'>Назад</a></p>
 </div>
 
 <!-- Подключаем jQuery -->

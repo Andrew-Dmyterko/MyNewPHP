@@ -14,9 +14,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// check the session status
-// if sessions are enabled, but none exists
-// start the session
+// check the session status // if sessions are enabled, but none exists // start the session
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -29,7 +27,7 @@ require_once "Classes/ExpressAdmin.php";
 ExpressAdmin::grant();
 
 //var_dump($_POST);
-//var_dump($_GET);
+//var_dump($_GET['city_id']);
 
 
 $order="";
@@ -38,11 +36,11 @@ $id=0;
 $user_send = "";
 $user_recive = "";
 
-if (isset($_GET['user_send_description']))  $user_send_description = $_GET['user_send_description'];
-else $user_send_description = "";
+//if (isset($_GET['user_send_description']))  $user_send_description = $_GET['user_send_description'];
+//else $user_send_description = "";
 
-if (isset($_GET['user_send_weight']))  $user_send_weight = $_GET['user_send_weight'];
-else $user_send_weight = "";
+//if (isset($_GET['user_send_weight']))  $user_send_weight = $_GET['user_send_weight'];
+//else $user_send_weight = "";
 
 if (isset($_GET['user_phone_sender'])) {
 
@@ -54,6 +52,13 @@ if (isset($_GET['user_phone_sender'])) {
         }
     }
 }
+$city_id =  $_GET['city_id'] ?? null;
+$pack_descr = $_GET['pack_descr'] ?? '';
+$pack_weight = $_GET['pack_weight'] ?? '';
+$pack_length = $_GET['pack_length'] ?? '';
+$pack_width = $_GET['pack_width'] ?? '';
+$pack_height = $_GET['pack_height'] ?? '';
+
 
 if (isset($_GET['phone_phone_recive'])) {
 
@@ -72,6 +77,14 @@ if (isset($_GET['phone_phone_recive'])) {
 
     // get city from db
     $citiesList = $db->getCities();
+
+//                         get points from db
+    if (isset($city_id)) {
+        $pointsList = $db->getPoints($city_id);
+        $city_name = $db->getCityById($city_id);
+//        echo $city_name[0]['city_name'];
+    }
+    else $pointsList = null;
 
 
 }
@@ -104,7 +117,7 @@ if (isset($_GET['phone_phone_recive'])) {
                     $_SESSION['time'] = time();
                     ?>
                     <td>
-                        <br>
+                        <!--                        <br>--><h6></h6>
                         <form method="POST" action='logout.php' enctype='multipart/form-data' style="margin-top: 1px">
                             <div>
                                 <button type="submit" class="btn btn-outline-primary" name="logout_send" value="logout_send">Logout <?=$_SESSION['userName'] ?></button>
@@ -186,11 +199,11 @@ if (isset($_GET['phone_phone_recive'])) {
          <div class="form-row">
              <div class="col-md-3 mb-3">
                  <label for="validationDefault03">Номер отделения</label>
-                 <input type="text" class="form-control" name="user_send_description" id="validationDefault03" value="<?= $_SESSION['point'] ?>" required>
+                 <input type="text" class="form-control" name="point_num" id="validationDefault03" value="<?= $_SESSION['point'] ?>" required>
              </div>
              <div class="col-md-6 mb-3">
                  <label for="validationDefault04">Адрес отделения</label>
-                 <input type="text" class="form-control" name="user_send_weight" id="validationDefault04"  value="<?=$_SESSION['address'] ?>" required>
+                 <input type="text" class="form-control" name="point_address" id="validationDefault04"  value="<?=$_SESSION['address'] ?>" required>
              </div>
          </div>
          <div class="page-header">
@@ -199,23 +212,23 @@ if (isset($_GET['phone_phone_recive'])) {
          <div class="form-row">
              <div class="col-md-4 mb-3">
                  <label for="validationDefault03">Описание посылки</label>
-                 <input type="text" class="form-control" name="user_send_description" id="validationDefault03" placeholder="Описание посылки"  value="<?= $user_send_description ?>" required>
+                 <input type="text" class="form-control" name="pack_descr" id="validationDefault03" placeholder="Описание посылки"  value="<?= $pack_descr ?>" required>
              </div>
              <div class="col-md-1 mb-3">
                  <label for="validationDefault04">Вес (кг)</label>
-                 <input type="text" class="form-control" name="user_send_weight" id="validationDefault04" placeholder="Вес" value="<?=$user_send_weight ?>" required>
+                 <input type="text" class="form-control" name="pack_weight" id="validationDefault04" placeholder="Вес" value="<?=$pack_weight ?>" required>
              </div>
              <div class="col-md-1 mb-3">
                  <label for="validationDefault04">Длина (мм)</label>
-                 <input type="text" class="form-control" name="user_send_weight" id="validationDefault04" placeholder="Длина" value="<?=$user_send_weight ?>" required>
+                 <input type="text" class="form-control" name="pack_length" id="validationDefault04" placeholder="Длина" value="<?=$pack_length ?>" required>
              </div>
              <div class="col-md-1 mb-3">
                  <label for="validationDefault04">Ширина (мм</label>
-                 <input type="text" class="form-control" name="user_send_weight" id="validationDefault04" placeholder="Ширина" value="<?=$user_send_weight ?>" required>
+                 <input type="text" class="form-control" name="pack_width" id="validationDefault04" placeholder="Ширина" value="<?=$pack_width ?>" required>
              </div>
              <div class="col-md-1 mb-3">
                  <label for="validationDefault04">Высота (мм)</label>
-                 <input type="text" class="form-control" name="user_send_weight" id="validationDefault04" placeholder="Высота" value="<?=$user_send_weight ?>" required>
+                 <input type="text" class="form-control" name="pack_height" id="validationDefault04" placeholder="Высота" value="<?=$pack_height ?>" required>
              </div>
          </div>
          <div class="page-header">
@@ -235,7 +248,7 @@ if (isset($_GET['phone_phone_recive'])) {
              <div class="form-row">
                  <div class="col-md-2 mb-2">
                      <label for="validationDefault01">Телефон</label>
-                     <input type="text" class="form-control" id="validationDefault01" name="user_phone_reciver" placeholder="Телефон отправителя" value="<?=$user_recive['user_phone']?>" required>
+                     <input type="text" class="form-control" id="validationDefault01" name="phone_phone_recive" placeholder="Телефон отправителя" value="<?=$user_recive['user_phone']?>" required>
                  </div>
                  <div class="col-md-3 mb-3">
                      <label for="validationDefault02">ФИО</label>
@@ -261,26 +274,34 @@ if (isset($_GET['phone_phone_recive'])) {
              <div class="form-row">
                  <div class="col-md-3 mb-3">
                      <label for="validationDefault03">Город получателя</label>
-                     <select class="form-select form-control" aria-label="Default select example" id="validationDefault03" name="city">
-                         <option selected>Выберите город</option>
+                     <select class="form-select form-control" aria-label="Default select example" id="validationDefault03" name="city_id">
+                         <option disabled selected>Выберите город</option>
                          <?php foreach ($citiesList as $id => $city) :?>
 
-                         <option value=<?= $city['city_id']?>><?= $city['city_name']?></option>
+                         <option value=<?= $city['city_id']?> <?= ($city['city_id'] == $city_id) ? " selected" : ""; ?>><?= $city['city_name']?> </option>
 
                         <?php endforeach; ?>
                      </select>
-                     <button class="btn btn-primary" type="submit">Найти отделения</button>
+                     <button class="btn btn-primary" type="submit">Найти отделения в городе</button>
                  </div>
-                 <div class="col-md-3 mb-3">
+
+                 <div class="col-md-6 mb-6">
                      <label for="validationDefault03">Номер отделения</label>
-                     <input type="text" class="form-control" name="user_send_description" id="validationDefault03" value="<?= $_SESSION['point'] ?>" required>
+                     <select class="form-select form-control" aria-label="Default select example" id="validationDefault03" name="point_id">
+                         <option disabled selected>Выберите отделение</option>
+                         <?php foreach ($pointsList as $id => $point) :?>
+
+                             <option value=<?= $point['point_id']?> ><?= $point['point_number']." - ".$city_name[0]['city_name'].", ".$point['point_address']?> </option>
+
+                         <?php endforeach; ?>
+                     </select>
+<!--                     <button class="btn btn-primary" type="submit">Посчитать стоимость</button>-->
                  </div>
-                 <div class="col-md-6 mb-3">
-                     <label for="validationDefault04">Адрес отделения</label>
-                     <input type="text" class="form-control" name="user_send_weight" id="validationDefault04"  value="<?=$_SESSION['address'] ?>" required>
+                 <div class="col-md-2 mb-2">
+                     <label for="validationDefault04"><b>Расчет стоимости</b></label>
+                     <button class="btn btn-primary form-control" name="go_cost" value="cost" type="submit">Посчитать стоимость</button>
                  </div>
              </div>
-
 
              <button class="btn btn-primary" name="send_offer" value="send_offer" type="submit">Оформит заказ</button>
          <?php } ?>

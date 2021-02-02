@@ -40,7 +40,27 @@ class ExpressDb extends ExpressDbData
         return $cities;
     }
 
+    public function getCityById($city_id)
+    {
 
+        $sql = 'select * from cities where city_id = '.$city_id;
+
+        $query = $this->connection->query($sql);
+        $city = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        return $city;
+    }
+
+    public function getPoints($city_id)
+    {
+
+        $sql = 'select * from point  where city_id = '.$city_id.' order by point_number';
+
+        $query = $this->connection->query($sql);
+        $points = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        return $points;
+    }
 
 
 }

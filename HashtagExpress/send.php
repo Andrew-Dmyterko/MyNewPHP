@@ -29,7 +29,8 @@ ExpressAdmin::grant();
 
 //var_dump($_POST);
 //var_dump($_GET['city_id']);
-
+//var_dump($_SESSION);
+//var_dump($_GET);
 
 $order="";
 $order_track=[];
@@ -55,6 +56,13 @@ $pack_length = $_GET['pack_length'] ?? '';
 $pack_width = $_GET['pack_width'] ?? '';
 $pack_height = $_GET['pack_height'] ?? '';
 
+// new Db object
+$db = new ExpressDb();
+// connect to databases
+$db->connect();
+
+// get point sender info
+$point_sender = $db->getPointById($_SESSION['point']);
 
 if (isset($_GET['phone_phone_recive'])) {
 
@@ -66,10 +74,6 @@ if (isset($_GET['phone_phone_recive'])) {
         }
     }
 
-    // new Db object
-    $db = new ExpressDb();
-// connect to databases
-    $db->connect();
 
     // get city from db
     $citiesList = $db->getCities();
@@ -197,11 +201,13 @@ if (isset($_GET['phone_phone_recive'])) {
          <div class="form-row">
              <div class="col-md-3 mb-3">
                  <label for="validationDefault03">Номер отделения</label>
-                 <input type="text" class="form-control" name="point_num" id="validationDefault03" value="<?= $_SESSION['point'] ?>" required>
+<!--                 <input type="text" class="form-control" name="point_num" id="validationDefault03" value="--><?//= $_SESSION['point'] ?><!--" required>-->
+                 <input type="text" class="form-control" name="point_num" id="validationDefault03" value="<?= $point_sender[0]['point_number'] ?>" required>
              </div>
              <div class="col-md-6 mb-3">
                  <label for="validationDefault04">Адрес отделения</label>
-                 <input type="text" class="form-control" name="point_address" id="validationDefault04"  value="<?=$_SESSION['address'] ?>" required>
+<!--                 <input type="text" class="form-control" name="point_address" id="validationDefault04"  value="--><?//=$_SESSION['address'] ?><!--" required>-->
+                 <input type="text" class="form-control" name="point_address" id="validationDefault04"  value="<?=$point_sender[0]['city_name'].", ".$point_sender[0]['point_address'] ?>" required>
              </div>
          </div>
          <div class="page-header">
@@ -350,10 +356,13 @@ if (isset($_GET['phone_phone_recive'])) {
 
 //echo "<pre>";
 //    var_dump($_GET);
+//    var_dump($_SESSION);
 //die;
 
-    $package = new Package($_GET["user_phone_sender"],
+    $package = new Package(
+        $_GET["user_phone_sender"],
         $_GET["point_num"],
+        $_SESSION["point"],
         $_GET["point_address"],
         $_GET["pack_descr"],
         $_GET["pack_weight"],
@@ -365,13 +374,36 @@ if (isset($_GET['phone_phone_recive'])) {
         $_GET["point_id"],
         $_GET["pay_beznal"],
         $_GET["pay"],
-        $_GET["pay_reciver"]);
+        $_GET["pay_reciver"]
+    );
 
-    $package->save($db->connection);
+//        public $package_id; // id package
+//        public $user_phone_sender; // sender phone
+//        public $point_id_s; // sender point id
+//        public $point_num; // sender point num
+//        public $point_address; // sender point address
+//        public $pack_descr; // package description
+//        public $pack_weight; // package weight
+//        public $pack_length; // package length
+//        public $pack_width; // package width
+//        public $pack_height; // // package height
+//        public $phone_phone_recive; // receiver phone
+//        public $city_id;
+//        public $point_id;
+//        public $pay_beznal; // pay cashless/cash
+//        public $pay;        // is payment
+//        public $pay_reciver; // is receiver pay?
+//        public $order_num; // track code
+//        public $status_msg; //status massage
+//        public $status_id; //status massage
+//        public $timePkgCreate; // time when package created
+
+
+//    $package->create($db->connection);
 
     /* Генерация QR-кода во временный файл */
     //    http://localhost/MyNewPHP/HashtagExpress/status.php?order_num=98006300258
-    QRcode::png('http://172.16.10.101/MyNewPHP/HashtagExpress/status.php?order_num=98006300258', __DIR__ . '/tmp/tmp.png', 'M', 6, 2);
+    QRcode::png('http://172.16.10.101/MyNewPHP/HashtagExpress/status.php?order_num='.$package->order_num, __DIR__ . '/tmp/tmp.png', 'M', 6, 2);
 
     $im = imagecreatefrompng(__DIR__ . '/tmp/tmp.png');
     $width = imagesx($im);
@@ -406,25 +438,32 @@ if (isset($_GET['phone_phone_recive'])) {
             <img src="tmp/tmp.png" alt="" style="float: left; width: 200px;"/>
         </div>
         <div class="text" style="margin-left: 220px;">
-            <h4>Заказ <b>98006300258</b> от <b>20.12.2020</b></h4>
+            <h4>Заказ <b><?=$package->order_num?></b> от <b><?=date("d.m.y",$package->timePkgCreate)?></b></h4>
             <table>
                 <tr>
-                    <h6><td><u><b>Отправитель:</b></u></td> <td>+380934578265 Иванов Т.О. отделение №15 город Киев</td></h6>
+
+                    <h6>
+                        <td><u><b>Отправитель:</b></u></td>
+                        <td><?=$user_send['user_phone']." ".$user_send['user_name']." отделение №".$point_sender[0]['point_number']." г.".$point_sender[0]['city_name'].", ".$point_sender[0]['point_address']?></td>
+                    </h6>
                 </tr>
                 <tr>
-                    <h6><td><u><b>Получатель:</b></u> </td><td>+380501472588 Петров М.В. отделение №22 город Хмельницкий</td></h6>
+                    <h6>
+                    <td><u><b>Получатель:</b></u></td>
+                    <td><?=$user_recive['user_phone']." ".$user_recive['user_name']." отделение №".$point_name[0]['point_number']." г.".$city_name[0]['city_name'].", ".$point_name[0]['point_address']?></td>
+                    </h6>
                 </tr>
                 <tr>
-                    <h6><td><u><b>Посылка:</b></u> </td><td>Документы. </td></h6>
+                    <h6><td><u><b>Посылка:</b></u> </td><td><?=$pack_descr?></td></h6>
                 </tr>
                 <tr>
                     <h6><td><u><b>Доставка:</b></u> </td><td>25.12.2020р. </td></h6>
                 </tr>
                 <tr>
-                    <h6><td><u><b>Цена доставки:</b></u> </td><td>100грн </td></h6>
+                    <h6><td><u><b>Цена доставки:</b></u> </td><td><?= Package::countDelivery() ?> грн</td></h6>
                 </tr>
                 <tr>
-                    <h6><td><u><b>Подпись отправителя:</b></u> </td><td>   ______________ Иванов Т.О.</td></h6>
+                    <h6><td><u><b>Подпись отправителя:</b></u> </td><td>   ______________ <?=$user_send['user_name']?></td></h6>
                 </tr>
             </table>
         </div>

@@ -53,7 +53,8 @@ class ExpressAdmin {
                         $_SESSION['user'] = $user['login'];
                         $_SESSION['userName'] = $user['name'];
                         $_SESSION['group'] = $user['group'];
-                        $_SESSION['point'] = $user['point'];
+                        $_SESSION['point'] = $user['point_id'];
+                        $_SESSION['point_num'] = $user['point'];
                         $_SESSION['address'] = $user['address'];
                         $_SESSION['access_page'] = array_merge($access['all'],$access[$user['group']]);
                         $_SESSION['time'] = time();

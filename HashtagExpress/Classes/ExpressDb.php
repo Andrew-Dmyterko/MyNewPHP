@@ -63,7 +63,7 @@ class ExpressDb extends ExpressDbData
 
     public function getPointById($point_id)
     {
-        $sql = 'select * from point  where point_id = '.$point_id.' order by point_number';
+        $sql = 'select * from point a, cities b where a.point_id = '.$point_id.' and b.`city_id`=a.`city_id` order by a.point_number';
 
         $query = $this->connection->query($sql);
         $point = $query->fetchAll(PDO::FETCH_ASSOC);

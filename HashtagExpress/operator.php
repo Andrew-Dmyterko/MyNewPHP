@@ -91,7 +91,7 @@ ExpressAdmin::grant();
         </h2>
     </div>
 <!--    <h1><b>Рабочее место Оператора!!!!!!</b></h1>-->
-    <h5><b>Отделение  №<?=$_SESSION['point']?></b></h5>
+    <h5><b>Отделение  №<?=$_SESSION['point_num']?></b></h5>
     <h6><b>Адрес - <?=$_SESSION['address']?></b></h6>
 
 <!--    <h3>Оператор --><?//=$_SESSION['userName']?><!--</h3>-->

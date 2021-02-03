@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 require_once "db/db.php";
 
-require_once "Classes/ExpressAdmin.php";
+//require_once "Classes/ExpressAdmin.php";
 
 //var_dump($_SESSION);
 
@@ -321,7 +321,7 @@ if (isset($_GET['phone_phone_recive'])) {
                                  <td><?=$user_recive['user_phone']." ".$user_recive['user_name']." отделение №".$point_name[0]['point_number']." г.".$city_name[0]['city_name'].", ".$point_name[0]['point_address']?></td>
                          </tr>
                          <tr>
-                             <td><u><b>Cтоимость доставки:</b></u></td><td><?= Package::countDelivery() ?> грн</td>
+                             <td><u><b>Cтоимость доставки:</b></u></td><td><?= ExpressPackage::countDelivery() ?> грн</td>
                          </tr>
                          <tr>
                                      <td>  <div class="form-check">
@@ -464,7 +464,7 @@ if (isset($_GET['phone_phone_recive'])) {
                     <h6><td><u><b>Доставка:</b></u> </td><td>25.12.2020р. </td></h6>
                 </tr>
                 <tr>
-                    <h6><td><u><b>Цена доставки:</b></u> </td><td><?= Package::countDelivery() ?> грн</td></h6>
+                    <h6><td><u><b>Цена доставки:</b></u> </td><td><?= ExpressPackage::countDelivery() ?> грн</td></h6>
                 </tr>
                 <tr>
                     <h6><td><u><b>Подпись отправителя:</b></u> </td><td>   ______________ <?=$user_send['user_name']?></td></h6>

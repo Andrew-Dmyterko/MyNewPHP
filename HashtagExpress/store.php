@@ -11,6 +11,8 @@ if (session_status() == PHP_SESSION_NONE) {
 use Classes\ExpressAdmin;
 use Classes\ExpressPackage;
 use Classes\ExpressDb;
+require_once "db/db.php";
+
 
 // __autoload for used class
 spl_autoload_register(function ($class) {
@@ -25,7 +27,7 @@ spl_autoload_register(function ($class) {
 //$_SESSION['Messages'] = 'Error!!';
 //require_once "Classes/ExpressAdmin.php";
 
-var_dump($_SESSION);
+//var_dump($_SESSION);
 
 ExpressAdmin::grant();
 
@@ -38,6 +40,7 @@ $point_id = $_SESSION['point'];
 $point_num = $_SESSION['point_num'];
 
 $packages = ExpressPackage::getStorePackage($db->connection,$point_id,$point_num);
+
 
 ?>
 
@@ -110,12 +113,52 @@ $packages = ExpressPackage::getStorePackage($db->connection,$point_id,$point_num
         <a href="checkandrecive.php?page=book&key={url}" class="btn btn-primary">Прием и проверка посылок</a>
     </div>
     <?php else : ?>
+        <hr>
+        <h3><b>Принятые посылки на предотправную проверку/упаковку:</b></h3>
+        <hr>
+    <?php
 
-    <?php var_dump($packages);
+//        echo "<pre>";
+//        var_dump($packages);
+        foreach ($packages as $id => $package) :
+            $user_send = "";
+            $user_recive = "";
 
-    
-
-    ?>
+            foreach ($users as $key => $val) {
+                if ($val['user_phone'] == $package['user_phone_sender']) {
+                    $user_send = $val;
+                }
+                if ($val['user_phone'] == $package['phone_phone_recive']) {
+                    $user_recive = $val;
+                }
+            } // get point sender info
+            $point_sender = $db->getPointById($package['point_id_s']);
+            $point_name = $db->getPointById($package['point_id']);
+             ?>
+            <div class="text">
+                <h5>Заказ <b><?=$package['order_num']?></b> создан <b><?=date("d.m.y, H:m:s",$package['timePkgCreate'])?></b></h5>
+                <table>
+                    <tr>
+                        <td><u><b>Отправитель:</b></u></td>
+                        <td><?=$user_send['user_phone']." ".$user_send['user_name']." отделение №".$point_sender[0]['point_number']." г.".$point_sender[0]['city_name'].", ".$point_sender[0]['point_address']?></td>
+                    </tr>
+                    <tr>
+                        <td><u><b>Получатель:</b></u></td>
+                        <td><?=$user_recive['user_phone']." ".$user_recive['user_name']." отделение №".$point_name[0]['point_number']." г.".$point_name[0]['city_name'].", ".$point_name[0]['point_address']?></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <u><b>Упаковка/проверка:  </b></u>
+                        </td>
+                        <td>
+                               <input type="checkbox" name="packcheck[]" id="exampleCheck1" style="margin-left: 5px">  Упаковка/проверка выполнена
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+        <?php endforeach; ?>
+                     <button class="btn btn-primary" name="send_offer" value="send_offer" type="submit">Упаковать посылки</button>
 
     <?php endif;?>
 

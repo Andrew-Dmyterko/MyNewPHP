@@ -69,7 +69,7 @@ class ExpressPackage
     {
         $sql = "INSERT INTO `package`  (`user_phone_sender`, `point_num`, `point_id_s`, `point_address`, `pack_descr`, 
                         `pack_weight`,`pack_length`,`pack_width`, `pack_height`, `phone_phone_recive`, 
-                        `city_id`, `point_id;`, `pay_beznal`, `pay`, `pay_reciver`, `order_num`, `status_msg`,
+                        `city_id`, `point_id`, `pay_beznal`, `pay`, `pay_reciver`, `order_num`, `status_msg`,
                                         `status_id`,`timePkgCreate`) 
                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -101,7 +101,6 @@ class ExpressPackage
 
     public function changeStatus($db, $package_id, $status_Id, $status_msg)
     {
-
         try {
             $db->beginTransaction();
 
@@ -139,6 +138,8 @@ class ExpressPackage
 
         return $getPointStorePackages->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 
 }
 

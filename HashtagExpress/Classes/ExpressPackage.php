@@ -13,7 +13,7 @@ namespace Classes;
 
 use PDO;
 
-class Package
+class ExpressPackage
 {
     public $package_id; // id package
     public $user_phone_sender; // sender phone
@@ -67,15 +67,15 @@ class Package
 
     public function create($db)
     {
-        $sql = "INSERT INTO `package`  (`user_phone_sender`, `point_num`, `point_address`, `pack_descr`, 
+        $sql = "INSERT INTO `package`  (`user_phone_sender`, `point_num`, `point_id_s`, `point_address`, `pack_descr`, 
                         `pack_weight`,`pack_length`,`pack_width`, `pack_height`, `phone_phone_recive`, 
                         `city_id`, `point_id;`, `pay_beznal`, `pay`, `pay_reciver`, `order_num`, `status_msg`,
                                         `status_id`,`timePkgCreate`) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $this->timePkgCreate = time();
 
-        $options = [$this->user_phone_sender, $this->point_num , $this->point_address, $this->pack_descr,
+        $options = [$this->user_phone_sender, $this->point_num, $this->point_id_s, $this->point_address, $this->pack_descr,
                                   $this->pack_weight, $this->pack_length, $this->pack_width, $this->pack_height,
                                   $this->phone_phone_recive, $this->city_id, $this->point_id, $this->pay_beznal,
                                   $this->pay, $this->pay_reciver, $this->order_num, $this->status_msg, $this->status_id,
@@ -88,7 +88,7 @@ class Package
         if ($select->rowCount()>0) {
             $this->package_id = $db->lastInsertId();
 
-            $status_massage = "Находится в отделении $this->point_num, По адрессу $this->point_address. Ожидает отправку складом";
+            $status_massage = "Находится в отделении $this->point_num, По адрессу $this->point_address. Ожидает обработку складом";
             $status_id = 1; //
             $this->changeStatus($db, $this->package_id, $status_id, $status_massage );
 
@@ -127,9 +127,19 @@ class Package
             $db->rollBack();
             echo "Ошибка: " . $e->getMessage();
         }
-
-
     }
+
+    public static function getStorePackage($db, $point_id, $point_num)
+    {
+        $sql = 'select * from package where point_id_s = ? and point_num = ? and status_id = 1';
+
+        $getPointStorePackages = $db->prepare($sql);
+        $options = [$point_id, $point_num];
+        $getPointStorePackages->execute($options);
+
+        return $getPointStorePackages->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 
 

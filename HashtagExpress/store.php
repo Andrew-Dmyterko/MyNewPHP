@@ -9,6 +9,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 use Classes\ExpressAdmin;
+use Classes\ExpressPackage;
+use Classes\ExpressDb;
 
 // __autoload for used class
 spl_autoload_register(function ($class) {
@@ -23,9 +25,19 @@ spl_autoload_register(function ($class) {
 //$_SESSION['Messages'] = 'Error!!';
 //require_once "Classes/ExpressAdmin.php";
 
-//var_dump($_SESSION);
+var_dump($_SESSION);
 
 ExpressAdmin::grant();
+
+// new Db object
+$db = new ExpressDb();
+// connect to databases
+$db->connect();
+
+$point_id = $_SESSION['point'];
+$point_num = $_SESSION['point_num'];
+
+$packages = ExpressPackage::getStorePackage($db->connection,$point_id,$point_num);
 
 ?>
 
@@ -92,13 +104,23 @@ ExpressAdmin::grant();
     <h5><b>Отделение  №<?=$_SESSION['point']?></b></h5>
     <h6><b>Адрес - <?=$_SESSION['address']?></b></h6>
 
+    <?php if (!isset($_GET['pack'])) :?>
     <div>
-        <a href="pack.php" class="btn btn-primary">Упаковка посылок</a>
+        <a href="store.php?pack=yes" class="btn btn-primary">Упаковка посылок</a>
         <a href="checkandrecive.php?page=book&key={url}" class="btn btn-primary">Прием и проверка посылок</a>
     </div>
+    <?php else : ?>
 
+    <?php var_dump($packages);
+
+    
+
+    ?>
+
+    <?php endif;?>
 
     <hr>
+    <p><a href='store.php'>Назад</a></p>
     <!-- Подключаем jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Подключаем Bootstrap JS -->

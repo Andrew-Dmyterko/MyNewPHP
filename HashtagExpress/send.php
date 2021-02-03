@@ -3,7 +3,7 @@ session_start();
 
 use Classes\ExpressDb;
 use Classes\ExpressAdmin;
-use Classes\Package;
+use Classes\ExpressPackage;
 
 // __autoload for used class
 spl_autoload_register(function ($class) {
@@ -313,7 +313,8 @@ if (isset($_GET['phone_phone_recive'])) {
                      <table>
                          <tr>
                                  <td><u><b>Отправитель:</b></u></td>
-                                 <td><?=$user_send['user_phone']." ".$user_send['user_name']." отделение №".$point['point_number']." г.".$city_name[0]['city_name']?></td>
+                                 <td><?=$user_send['user_phone']." ".$user_send['user_name']." отделение №".$point_sender[0]['point_number']." г.".$point_sender[0]['city_name'].", ".$point_sender[0]['point_address']?></td>
+<!--                                 <td>--><?//=$user_send['user_phone']." ".$user_send['user_name']." отделение №".$point['point_number']." г.".$city_name[0]['city_name']?><!--</td>-->
                          </tr>
                          <tr>
                                  <td><u><b>Получатель:</b></u></td>
@@ -358,8 +359,11 @@ if (isset($_GET['phone_phone_recive'])) {
 //    var_dump($_GET);
 //    var_dump($_SESSION);
 //die;
+        $pay_beznal = $_GET["pay_beznal"] ?? null;
+        $pay = $_GET["pay"] ?? null;
+        $pay_reciver = $_GET["pay_reciver"] ?? null;
 
-    $package = new Package(
+    $package = new ExpressPackage(
         $_GET["user_phone_sender"],
         $_GET["point_num"],
         $_SESSION["point"],
@@ -372,9 +376,9 @@ if (isset($_GET['phone_phone_recive'])) {
         $_GET["phone_phone_recive"],
         $_GET["city_id"],
         $_GET["point_id"],
-        $_GET["pay_beznal"],
-        $_GET["pay"],
-        $_GET["pay_reciver"]
+        $pay_beznal,
+        $pay,
+        $pay_reciver
     );
 
 //        public $package_id; // id package
@@ -399,7 +403,7 @@ if (isset($_GET['phone_phone_recive'])) {
 //        public $timePkgCreate; // time when package created
 
 
-//    $package->create($db->connection);
+    $package->create($db->connection);
 
     /* Генерация QR-кода во временный файл */
     //    http://localhost/MyNewPHP/HashtagExpress/status.php?order_num=98006300258

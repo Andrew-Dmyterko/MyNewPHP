@@ -39,7 +39,7 @@ $db->connect();
 $point_id = $_SESSION['point'];
 $point_num = $_SESSION['point_num'];
 
-$packages = ExpressPackage::getStorePackage($db->connection,$point_id,$point_num);
+$packages = ExpressPackage::getDepartmentPackage($db->connection,$point_id,$point_num,1);
 
 
 ?>
@@ -75,7 +75,7 @@ $packages = ExpressPackage::getStorePackage($db->connection,$point_id,$point_num
                             <br>
                             <form method="POST" action='logout.php' enctype='multipart/form-data'>
                                 <div>
-                                    <button type="submit" name="logout_send" value="logout_send">Logout <?=$_SESSION['userName'] ?></button>
+                                    <button type="submit" name="logout_send" class="btn btn-outline-primary" value="logout_send">Logout <?=$_SESSION['userName'] ?></button>
                                 </div>
                             </form>
                         </td>
@@ -104,7 +104,7 @@ $packages = ExpressPackage::getStorePackage($db->connection,$point_id,$point_num
         <small>Кладовщик <?=$_SESSION['userName']?></small>
         </h2>
     </div>
-    <h5><b>Отделение  №<?=$_SESSION['point']?></b></h5>
+    <h5><b>Отделение  №<?=$_SESSION['point_num']?></b></h5>
     <h6><b>Адрес - <?=$_SESSION['address']?></b></h6>
 
     <?php if (!isset($_GET['pack'])) :?>

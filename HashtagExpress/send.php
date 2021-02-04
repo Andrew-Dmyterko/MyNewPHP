@@ -74,7 +74,6 @@ if (isset($_GET['phone_phone_recive'])) {
         }
     }
 
-
     // get city from db
     $citiesList = $db->getCities();
 
@@ -380,28 +379,6 @@ if (isset($_GET['phone_phone_recive'])) {
         $pay,
         $pay_reciver
     );
-
-//        public $package_id; // id package
-//        public $user_phone_sender; // sender phone
-//        public $point_id_s; // sender point id
-//        public $point_num; // sender point num
-//        public $point_address; // sender point address
-//        public $pack_descr; // package description
-//        public $pack_weight; // package weight
-//        public $pack_length; // package length
-//        public $pack_width; // package width
-//        public $pack_height; // // package height
-//        public $phone_phone_recive; // receiver phone
-//        public $city_id;
-//        public $point_id;
-//        public $pay_beznal; // pay cashless/cash
-//        public $pay;        // is payment
-//        public $pay_reciver; // is receiver pay?
-//        public $order_num; // track code
-//        public $status_msg; //status massage
-//        public $status_id; //status massage
-//        public $timePkgCreate; // time when package created
-
 
     $package->create($db->connection);
 

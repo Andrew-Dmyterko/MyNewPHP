@@ -25,10 +25,10 @@ require_once "db/db.php";
 $login = (isset($_POST['login'])) ? $_POST['login'] : "";
 $password = (isset($_POST['password'])) ? $_POST['password'] : "";
 
-echo $login;
-echo $password;
-var_dump($_SESSION);
-echo time();
+//echo $login;
+//echo $password;
+//var_dump($_SESSION);
+//echo time();
 
 
 if(ExpressAdmin::login($login, $password)) {
@@ -40,8 +40,8 @@ ExpressAdmin::goStartUserPage();
 
 echo "<hr>";
 
-echo $login;
-echo $password;
-var_dump($_SESSION);
-echo time();
+//echo $login;
+//echo $password;
+//var_dump($_SESSION);
+//echo time();
 

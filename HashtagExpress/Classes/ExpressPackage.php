@@ -41,6 +41,7 @@ class ExpressPackage
                                 $pack_height, $phone_phone_recive, $city_id, $point_id,
                                 $pay_beznal, $pay, $pay_reciver)
     {
+        // переписать в конструктор передавать id или трек и вызывать функцию гет байид получаем данные из базы и написать сетер свойств
         $this->user_phone_sender = $user_phone_sender;
         $this->point_num = $point_num;
         $this->point_id_s = $point_id_s;
@@ -88,7 +89,7 @@ class ExpressPackage
         if ($select->rowCount()>0) {
             $this->package_id = $db->lastInsertId();
 
-            $status_massage = "Находится в отделении $this->point_num, По адрессу $this->point_address. Ожидает обработку складом";
+            $status_massage = "Находится в отделении $this->point_num, По адрессу $this->point_address. Ожидает обработку/проверку складом.";
             $status_id = 1; //
             $this->changeStatus($db, $this->package_id, $status_id, $status_massage );
 
@@ -128,17 +129,40 @@ class ExpressPackage
         }
     }
 
-    public static function getStorePackage($db, $point_id, $point_num)
+    public static function getDepartmentPackage($db, $point_id, $point_num, $status_id)
     {
-        $sql = 'select * from package where point_id_s = ? and point_num = ? and status_id = 1';
+        $sql = 'select * from package where point_id_s = ? and point_num = ? and status_id = ?';
 
         $getPointStorePackages = $db->prepare($sql);
-        $options = [$point_id, $point_num];
+        $options = [$point_id, $point_num, $status_id];
         $getPointStorePackages->execute($options);
 
         return $getPointStorePackages->fetchAll(PDO::FETCH_ASSOC);
     }
+// эту функцию сделать не статичной
+    public static function getPackageByTrack($db, $trackNumber)
+    {
+        $getPackage = $db->prepare('select * from package where order_num = ?');
+        $options = [$trackNumber];
+        $getPackage->execute($options);
 
+        $package = $getPackage->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($getPackage->rowCount() == 1) return $package[0];
+        else return false;
+    }
+
+    public static function getHistoryById($db, $historyId)
+    {
+        $getTracks = $db->prepare('select * from package_track where package_id = ?');
+        $options = [$historyId];
+        $getTracks->execute($options);
+
+        $tracks = $getTracks->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($getTracks->rowCount() > 0) return $tracks;
+        else return false;
+    }
 
 
 }
